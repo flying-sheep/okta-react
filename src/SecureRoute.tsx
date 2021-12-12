@@ -13,13 +13,9 @@
 import * as React from 'react';
 import { useOktaAuth, OnAuthRequiredFunction } from './OktaContext';
 import { RouteProps } from 'react-router';
-import * as RR from 'react-router-dom';
 import { toRelativeUrl } from '@okta/okta-auth-js';
 import OktaError from './OktaError';
-
-const { Route } = RR;
-// react-router v6 exports useMatch, react-router v5 exports useRouteMatch
-const useMatch = Object.entries(RR).filter(([k, _v]) => k == 'useMatch' || k == 'useRouteMatch')[0][1];
+import { useMatch } from 'react-router-dom';
 
 const SecureRoute: React.FC<{
   onAuthRequired?: OnAuthRequiredFunction;
@@ -30,8 +26,8 @@ const SecureRoute: React.FC<{
   ...routeProps 
 }) => { 
   const { oktaAuth, authState, _onAuthRequired } = useOktaAuth();
-  const { path, caseSensitive } = routeProps;
-  const match = path ? useMatch.call(null, { path, caseSensitive }) : null;
+  const { path = '/*', caseSensitive } = routeProps;
+  const match = useMatch({ path, caseSensitive })
   const pendingLogin = React.useRef(false);
   const [handleLoginError, setHandleLoginError] = React.useState<Error | null>(null);
   const ErrorReporter = errorComponent || OktaError;
