@@ -15,7 +15,7 @@ import { useOktaAuth, OnAuthRequiredFunction } from './OktaContext';
 import { RouteProps } from 'react-router';
 import { toRelativeUrl } from '@okta/okta-auth-js';
 import OktaError from './OktaError';
-import { useMatch } from 'react-router-dom';
+import { Route, useMatch } from 'react-router-dom';
 
 const SecureRoute: React.FC<{
   onAuthRequired?: OnAuthRequiredFunction;
